@@ -8,7 +8,7 @@ const filePath = path.join(process.cwd(), 'tasks.json');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 fs.readFile(filePath, 'utf-8', (_, data) => {
-  let state = new State(filePath);
+  let state = new State(filePath, fs);
   if (data) {
     state.loadFromJson(data);
   }

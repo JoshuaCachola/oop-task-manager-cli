@@ -60,10 +60,12 @@ class AddItemScreen {
     console.log();
     console.log("What is the category?");
     console.log();
-
     // TODO: Print all five category names with a one-based index
     //       like in the screen mockup in the project description.
-
+    const categories = this.state.getCategories();
+    for (let i = 0; i < categories.length; i++) {
+      console.log(`${i + 1}. ${categories[i]}`);
+    }
     console.log();
   }
 
@@ -92,7 +94,8 @@ class AddItemScreen {
           // TODO: Add a note to-do item to your state
           //       using the variable note
           // TODO: Save the state
-
+          this.state.pushTodo(new Note(note, false));
+          this.state.saveToJSON(this.state);
           const screen = new ManageTasksScreen(this.rl, this.state);
           screen.show();
         });
@@ -105,15 +108,17 @@ class AddItemScreen {
             // TODO: Use the value categoryIndex to get the
             //       name of the category and set the following
             //       value to the category name
-            const categoryName = "";
+
+            const categoryName = `${this.state.getCategories()[categoryIndex]}`;
 
             this.printTaskUi3(title, categoryName);
             this.rl.question("> ", description => {
               // TODO: Add a task to-do item to your state
               //       using the variables title, categoryIndex,
               //       and description
+              this.state.toDoList.push(new Task(title, categoryIndex, description, false));
               // TODO: Save the state
-
+              this.state.saveToJSON(this.state);
               const screen = new ManageTasksScreen(this.rl, this.state);
               screen.show();
             });
@@ -130,3 +135,4 @@ exports.AddItemScreen = AddItemScreen;
 
 // Requires at bottom to prevent circular dependencies problems in node
 const { ManageTasksScreen } = require('./manage-task-screen');
+const { Task, Note } = require("./application.js");

@@ -29,8 +29,8 @@ class EditCategoryScreen {
     // TODO: Use the value this.categoryIndex to get the
     //       name of the category and set the following
     //       value to the category name
-    const categoryName = "";
-
+    const category = this.state.getCategories();
+    const categoryName = `${category[this.categoryIndex]}`;
     this.printUi(categoryName);
     this.rl.question("> ", newCategoryName => {
       // TODO: Update the category with the index stored
@@ -38,6 +38,8 @@ class EditCategoryScreen {
       //       value in the newCategoryName variable.
       // TODO: Save the state
 
+      this.state.setCategory(newCategoryName, this.categoryIndex);
+      this.state.saveToJSON(this.state);
       new ManageCategoriesScreen(this.rl, this.state).show();
     });
   }

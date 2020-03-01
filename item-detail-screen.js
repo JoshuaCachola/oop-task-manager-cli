@@ -48,15 +48,26 @@ class ItemDetailScreen {
     //       into a category name from the note and call the
     //       this.printTaskUi(title, description, categoryName)
     //       method.
+    const ele = this.state.toDoList[this.index];
+    if (ele instanceof Note) {
+      this.printNoteUi(ele.getText());
+    }
+    if (ele instanceof Task) {
+      const categoryName = this.state.getCategories()[ele.getCategoryIndex()];
+      this.printTaskUi(ele.getTitle(), ele.getDescription(), categoryName);
+    }
 
     console.log("Type \"C\" and hit \"Enter\" to complete this");
     console.log("task and return to the list screen. Just");
     console.log("hit \"Enter\" to return to the list screen.");
     this.rl.question("> ", answer => {
-      if (answer === "C") {
+      if (answer.toUpperCase() === "C") {
         // TODO: Mark the item as complete
         // TODO: Save the application state
-
+        const task = this.state.getToDoList()[this.index];
+        task.toggleCompleted();
+        this.state.moveToFinished(this.index);
+        this.state.saveToJSON(this.state);
       }
       const screen = new ManageTasksScreen(this.rl, this.state);
       screen.show();
@@ -68,3 +79,4 @@ exports.ItemDetailScreen = ItemDetailScreen;
 
 // Requires at bottom to prevent circular dependencies problems in node
 const { ManageTasksScreen } = require('./manage-task-screen');
+const { Note, Task } = require('./application');

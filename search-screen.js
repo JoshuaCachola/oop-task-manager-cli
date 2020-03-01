@@ -33,7 +33,15 @@ class SearchScreen {
     // TODO: Search the items as described in the requirements with
     //       the value stored in term. Print all of the matching
     //       items, complete and incomplete alike.
-
+    const tasksArray = this.state.getToDoList();
+    tasksArray.forEach((task, i) => {
+      if (task instanceof Task) {
+        // console.log(process.stdout.rows)
+        console.log(`${i + 1}. ${task.getTitle().slice(0, 70)}`);
+      } else if (task instanceof Note) {
+        console.log(`${i + 1}. ${task.getText().slice(0, 70)}`);
+      }
+    })
     console.log();
   }
 
@@ -52,3 +60,4 @@ class SearchScreen {
 exports.SearchScreen = SearchScreen;
 
 const { MainScreen } = require('./main-screen');
+const { Task, Note } = require('./application');

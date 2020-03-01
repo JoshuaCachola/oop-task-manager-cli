@@ -19,6 +19,14 @@ class ManageTasksScreen {
 
     // TODO: Print the incomplete to-do items in the format as
     //       shown in the requirements, 1-based list.
+    const toDo = this.state.getToDoList();
+    toDo.forEach((task, i) => {
+      if (!task.getCompleted() && task instanceof Note) {
+        console.log(`${i + 1}. ${task.getText()}`);
+      } else if (!task.getCompleted() && task instanceof Task) {
+        console.log(`${i + 1}. ${task.getTitle()}`);
+      }
+    });
 
     console.log();
     console.log("A. Add a new item");
@@ -31,13 +39,15 @@ class ManageTasksScreen {
     this.rl.question("> ", answer => {
       const index = Number.parseInt(answer) - 1;
       let screen = this;
-      if (answer === "A") {
+      if (answer.toUpperCase() === "A") {
         screen = new AddItemScreen(this.rl, this.state);
-      } else if (answer === "X") {
+      } else if (answer.toUpperCase() === "X") {
         screen = new MainScreen(this.rl, this.state);
       } else if (!isNaN(index)) {
         screen = new ItemDetailScreen(this.rl, this.state, index);
-      }
+      } // } else if (answer.toUpperCase() === "C") {
+
+      // }
       screen.show();
     });
   }
@@ -49,3 +59,4 @@ exports.ManageTasksScreen = ManageTasksScreen;
 const { AddItemScreen } = require('./add-item-screen');
 const { MainScreen } = require('./main-screen');
 const { ItemDetailScreen } = require('./item-detail-screen');
+const { Note, Task } = require('./application');

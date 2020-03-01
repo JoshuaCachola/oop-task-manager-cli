@@ -38,7 +38,7 @@ class MainScreen {
         screen = new SearchScreen(this.rl, this.state);
       } else if (answer === "3") {
         screen = new ManageCategoriesScreen(this.rl, this.state);
-      } else if (answer === "X") {
+      } else if (answer.toUpperCase() === "X") {
         console.clear();
         this.rl.close();
         return;
